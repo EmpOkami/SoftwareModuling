@@ -1,0 +1,52 @@
+@startuml
+title Detailed Class Diagram: Enterprise Weight Converter
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+package "Core Logic" {
+    interface IConverter {
+        + Convert(value: double) : double
+    }
+
+    class WeightConverter implements IConverter {
+        - const double ConversionFactor = 0.45359237
+        + Convert(pounds: double) : double
+    }
+
+    class ConversionResult {
+        + InputValue : double
+        + OutputValue : double
+        + Timestamp : DateTime
+        + ToString() : string
+    }
+}
+
+package "Utilities" {
+    class InputValidator {
+        + {static} IsNumeric(input: string) : bool
+        + {static} IsPositive(value: double) : bool
+    }
+
+    class HistoryManager {
+        - _history : List<ConversionResult>
+        + AddRecord(result: ConversionResult) : void
+        + ShowHistory() : void
+    }
+}
+
+package "User Interface" {
+    class Program {
+        + {static} Main(args: string[]) : void
+        - {static} RunApplication() : void
+    }
+}
+
+Program ..> InputValidator : uses
+Program --> IConverter : depends on
+Program --> HistoryManager : maintains
+HistoryManager o-- ConversionResult : stores
+WeightConverter ..> ConversionResult : creates
+
+@enduml
+
+@enduml

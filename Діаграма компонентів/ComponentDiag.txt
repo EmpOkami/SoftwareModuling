@@ -1,0 +1,34 @@
+@startuml
+title Architectural Component Diagram
+
+package "Client Layer" {
+    component [Console UI] as UI
+}
+
+package "Service Layer" {
+    interface "IConverterService" as IService
+    component [Converter Logic] as Logic
+    component [Validation Service] as Validator
+}
+
+package "Data Layer" {
+    interface "IRepository" as IRepo
+    component [History Manager] as DataStore
+    file "history_log.txt" as File
+}
+
+component "Common Utils" as Utils
+
+UI ..> IService : use
+IService - Logic
+
+Logic ..> Validator : include
+Logic ..> IRepo : save result
+
+IRepo - DataStore
+DataStore ..> File : read/write
+
+Logic ..> Utils : use helpers
+UI ..> Utils : formatting
+
+@enduml

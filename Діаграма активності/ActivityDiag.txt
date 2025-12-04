@@ -1,0 +1,41 @@
+@startuml
+title Activity Diagram: Переведення фунтів в кг
+skinparam monochrome true
+skinparam shadowing false
+skinparam linetype ortho
+
+start
+
+:Ініціалізація програми;
+
+repeat
+    
+    :Вивести запит на введення ваги (lbs);
+    :Зчитати рядок з консолі;
+    
+    if (Введено команду 'q'?) then (Так)
+        :Вивести повідомлення про завершення;
+        stop
+    else (Ні)
+        
+        if (Введений рядок є числом?) then (Так)
+            
+            if (Число >= 0?) then (Так)
+                :Конвертувати фунти в кг
+                (kg = lbs * 0.453592);
+                :Вивести результат на екран;
+            else (Ні)
+                :Вивести помилку:
+                "Вага не може бути від'ємною";
+            endif
+            
+        else (Ні)
+            :Вивести помилку:
+            "Введено некоректні дані";
+        endif
+        
+    endif
+
+repeat while (Програма працює)
+
+@enduml

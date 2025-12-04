@@ -1,0 +1,36 @@
+@startuml
+title Advanced Use Case Diagram
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor "User" as user
+actor "System Admin" as admin
+
+package "Weight Converter System" {
+    
+    usecase "Ввести дані (Lbs)" as UC_Input
+    usecase "Конвертувати вагу" as UC_Convert
+    usecase "Переглянути результат" as UC_View
+    usecase "Переглянути історію" as UC_History
+    usecase "Очистити історію" as UC_ClearHistory
+    usecase "Отримати довідку" as UC_Help
+    
+    usecase "Валідація даних" as UC_Validate
+    usecase "Логування помилок" as UC_LogErr
+}
+
+user --> UC_Input
+user --> UC_History
+user --> UC_Help
+
+admin --> UC_ClearHistory
+admin --> UC_LogErr
+
+UC_Input ..> UC_Convert : <<include>>
+UC_Convert ..> UC_Validate : <<include>>
+UC_Convert ..> UC_View : <<include>>
+
+UC_Convert <.. UC_LogErr : <<extend>> \n(Якщо виник Exception)
+
+@enduml
